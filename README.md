@@ -1,5 +1,22 @@
 # okj-algo-template
 
+## 快速排序（递归二分)
+```
+void qsort(int l, int r){
+	int mid = a[l+((r-l)>>1)];
+	int i =l,j = r;
+	do{
+		while(a[i] < mid) i++;//找左半部分比中间数大的数
+		while(a[j] > mid) j--;//找右半部分比中间数小的数
+		if(i <= j){//如果有一组不满足排序条件（左小右大）
+			swap(a[i],a[j]);
+			i++;j--;
+		}
+	}while(i <= j);//=
+	if(l<j) qsort(l,j);//递归左半部分
+	if(i<r) qsort(i,r);//递归右半部分
+}
+```
 
 ## KMP
 ###### 当出现字符串不匹配时，可以记录一部分之前已经匹配的文本内容，利用这些信息避免从头再去做匹配。
@@ -134,4 +151,23 @@ int countNodes(TreeNode* root) {
         v = find(v);
         return u == v;
     }
+```
+
+## 快速幂
+例子：a^11 = a^8 + a^2 + a^1;
+11 = 1011(二进制)
+ 
+```
+long long quickPower(long long b, long long p, long long k){//b的p次方
+	long long ans = 1, base = b;
+	while(p > 0){
+		if(p & 1) {//只有 b 二进制最后一位是 1 时，b & 1 才会返回 1。
+            ans *= base,ans %= k;
+        }    
+		base *= base;
+		base %= k;
+		p>>=1;
+	}
+	return ans;
+}
 ```
