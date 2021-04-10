@@ -171,3 +171,38 @@ long long quickPower(long long b, long long p, long long k){//b的p次方
 	return ans;
 }
 ```
+## 线性筛
+初始时，假设全部都是素数，当找到一个素数时，显然这个素数乘上另外一个数之后都是合数
+把这些合数都筛掉，即算法名字的由来。但仔细分析能发现，这种方法会造成重复筛除合数，影响效率。
+比如10，在i=2的时候，k=2*15筛了一次；在i=5，k=5*6 的时候又筛了一次。所以，也就有了快速线性筛法。
+```
+int vis[MAXN];  
+int prime[MAXN];  //prime[j]表示的是第j个素数
+//判断是否是一个素数  vis 标记数组 cnt 素数个数  
+int cntPrime(){  
+    int cnt = 0;      
+    for(int i = 2; i < MAXN; i++)  
+    {  
+        //如果未标记则得到一个素数  
+        if(vis[i] == 0){  
+            prime[cnt++] = i;  
+        }  
+        //标记目前得到的素数的i倍为非素数  
+        for(int j = 0; j < cnt && prime[j] * i < MAXN; j++)  
+        {  
+            vis[i * prime[j]] = 1;  
+/*
+利用了每个合数必有一个最小素因子。每个合数仅被它的最小素因子筛去正好一次。所以为线性时间。
+代码中体现在：if(i%prime[j]==0)break;
+prime数组 中的素数是递增的,当 i 能整除 prime[j]，那么 i*prime[j+1] 这个合数肯定被 prime[j] 乘以某个数筛掉。
+因为i中含有prime[j], prime[j] 比 prime[j+1] 小。接下去的素数同理。所以不用筛下去了。
+在满足i%prme[j]==0这个条件之前以及第一次满足改条件时,pr[j]必定是pr[j]*i的最小因子
+*/
+            if(i % prime[j] == 0){  
+                break;  
+            }  
+        }  
+    }  
+    return cnt;  
+}  
+```
