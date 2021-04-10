@@ -158,15 +158,16 @@ int countNodes(TreeNode* root) {
 11 = 1011(二进制)
  
 ```
-long long quickPower(long long b, long long p, long long k){//b的p次方
+long long quickPower(long long b, long long p, long long k){//b的p次方对k取余
 	long long ans = 1, base = b;
 	while(p > 0){
 		if(p & 1) {//只有 b 二进制最后一位是 1 时，b & 1 才会返回 1。
-            ans *= base,ans %= k;
-        }    
+            		ans *= base;
+			ans %= k;//优化：每一步都对k取余
+        	}    
 		base *= base;
-		base %= k;
-		p>>=1;
+		base %= k;//优化：每一步都对k取余
+		p>>=1;//右移
 	}
 	return ans;
 }
