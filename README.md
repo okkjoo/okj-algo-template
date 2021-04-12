@@ -1,25 +1,6 @@
-# okj-algo-template
-
-## 快速排序（递归二分)
-```c
-void qsort(int l, int r){
-	int mid = a[l+((r-l)>>1)];
-	int i =l,j = r;
-	do{
-		while(a[i] < mid) i++;//找左半部分比中间数大的数
-		while(a[j] > mid) j--;//找右半部分比中间数小的数
-		if(i <= j){//如果有一组不满足排序条件（左小右大）
-			swap(a[i],a[j]);
-			i++;j--;
-		}
-	}while(i <= j);//=
-	if(l<j) qsort(l,j);//递归左半部分
-	if(i<r) qsort(i,r);//递归右半部分
-}
-```
-
+# 字符串
 ## KMP
-###### 当出现字符串不匹配时，可以记录一部分之前已经匹配的文本内容，利用这些信息避免从头再去做匹配。
+<strong>当出现字符串不匹配时，可以记录一部分之前已经匹配的文本内容，利用这些信息避免从头再去做匹配。</strong>
 1. 初始化
 2. 处理前后缀不同的情况
 3. 处理前后缀相同的情况
@@ -42,6 +23,9 @@ void kmp(int* next, const string& s){ //前缀表next，要进行查找的字符
 }
 ```
 
+
+
+# 数据结构
 ## 二叉树
 定义：
 ```c
@@ -153,6 +137,53 @@ int countNodes(TreeNode* root) {
     }
 ```
 
+## 树状数组
+![image](https://user-images.githubusercontent.com/72183335/114340001-23e58000-9b89-11eb-8909-dab7b2d2a472.png)
+```c
+//单点修改
+int tree[MAXN];
+inline void update(int i, int x)
+{
+    for (int pos = i; pos < MAXN; pos += lowbit(pos))//lowbit(x)=x&(-x) x的二进制表达式中最低位的1所对应的值。
+        tree[pos] += x;
+}
+//求前n项和
+inline int query(int n)
+{
+    int ans = 0;
+    for (int pos = n; pos; pos -= lowbit(pos))
+        ans += tree[pos];
+    return ans;
+}
+//区间查询
+inline int query(int a, int b)
+{
+    return query(b) - query(a - 1);
+}
+//初始化的时候，我们只需要update每个点的初始值即可。
+```
+# 其他
+
+
+## 快速排序（递归二分)
+```c
+void qsort(int l, int r){
+	int mid = a[l+((r-l)>>1)];
+	int i =l,j = r;
+	do{
+		while(a[i] < mid) i++;//找左半部分比中间数大的数
+		while(a[j] > mid) j--;//找右半部分比中间数小的数
+		if(i <= j){//如果有一组不满足排序条件（左小右大）
+			swap(a[i],a[j]);
+			i++;j--;
+		}
+	}while(i <= j);//=
+	if(l<j) qsort(l,j);//递归左半部分
+	if(i<r) qsort(i,r);//递归右半部分
+}
+```
+
+
 ## 快速幂
 例子：a^11 = a^8 + a^2 + a^1;
 11 = 1011(二进制)
@@ -206,29 +237,4 @@ prime数组 中的素数是递增的,当 i 能整除 prime[j]，那么 i*prime[j
     }  
     return cnt;  
 }  
-```
-## 树状数组
-![image](https://user-images.githubusercontent.com/72183335/114340001-23e58000-9b89-11eb-8909-dab7b2d2a472.png)
-```c
-//单点修改
-int tree[MAXN];
-inline void update(int i, int x)
-{
-    for (int pos = i; pos < MAXN; pos += lowbit(pos))//lowbit(x)=x&(-x) x的二进制表达式中最低位的1所对应的值。
-        tree[pos] += x;
-}
-//求前n项和
-inline int query(int n)
-{
-    int ans = 0;
-    for (int pos = n; pos; pos -= lowbit(pos))
-        ans += tree[pos];
-    return ans;
-}
-//区间查询
-inline int query(int a, int b)
-{
-    return query(b) - query(a - 1);
-}
-//初始化的时候，我们只需要update每个点的初始值即可。
 ```
