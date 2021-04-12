@@ -1,7 +1,7 @@
 # okj-algo-template
 
 ## 快速排序（递归二分)
-```
+```c
 void qsort(int l, int r){
 	int mid = a[l+((r-l)>>1)];
 	int i =l,j = r;
@@ -23,7 +23,7 @@ void qsort(int l, int r){
 1. 初始化
 2. 处理前后缀不同的情况
 3. 处理前后缀相同的情况
-```
+```c
 void kmp(int* next, const string& s){ //前缀表next，要进行查找的字符串
 //next[i] 表示 i（包括i）之前最长相等的前后缀长度（其实就是j）
     next[0] = -1; // 前缀表有统一减一的操作，所以j初始化为-1。
@@ -44,7 +44,7 @@ void kmp(int* next, const string& s){ //前缀表next，要进行查找的字符
 
 ## 二叉树
 定义：
-```
+```c
 struct TreeNode {
     int val;
     TreeNode *left;
@@ -53,7 +53,7 @@ struct TreeNode {
 };
 ```
 ### 深搜前序(中左右)递归遍历:
-```
+```c
 void traversal(TreeNode* cur, vector<int>& vec) {
     if (cur == NULL) return;
     vec.push_back(cur->val);    // 中 ，节点处理
@@ -63,7 +63,7 @@ void traversal(TreeNode* cur, vector<int>& vec) {
 ```
 
 ### 深搜前序迭代遍历：
-```
+```c
 vector<int> preorderTraversal(TreeNode* root) {
     vector<int> result;
     stack<TreeNode*> st;
@@ -88,7 +88,7 @@ vector<int> preorderTraversal(TreeNode* root) {
 ```
 
 ### 广搜(队列）：
-```
+```c
 vector<vector<int>> levelOrder(TreeNode* root) {
     queue<TreeNode*> que;
     if (root != NULL) que.push(root);
@@ -110,14 +110,14 @@ vector<vector<int>> levelOrder(TreeNode* root) {
 ```
 
 ### 求深度
-```
+```c
 int getDepth(TreeNode* node) {
     if (node == NULL) return 0;
     return 1 + max(getDepth(node->left), getDepth(node->right));
 }
 ```
 ### 节点数量
-```
+```c
 int countNodes(TreeNode* root) {
     if (root == NULL) return 0;
     return 1 + countNodes(root->left) + countNodes(root->right);
@@ -125,7 +125,7 @@ int countNodes(TreeNode* root) {
 ```
 
 ## 并查集
-```
+```c
     int father[N];
 
     // 初始化
@@ -157,7 +157,7 @@ int countNodes(TreeNode* root) {
 例子：a^11 = a^8 + a^2 + a^1;
 11 = 1011(二进制)
  
-```
+```c
 long long quickPower(long long b, long long p, long long k){//b的p次方对k取余
 	long long ans = 1, base = b;
 	while(p > 0){
@@ -176,7 +176,7 @@ long long quickPower(long long b, long long p, long long k){//b的p次方对k取
 初始时，假设全部都是素数，当找到一个素数时，显然这个素数乘上另外一个数之后都是合数
 把这些合数都筛掉，即算法名字的由来。但仔细分析能发现，这种方法会造成重复筛除合数，影响效率。
 比如10，在i=2的时候，k=2*15筛了一次；在i=5，k=5*6 的时候又筛了一次。所以，也就有了快速线性筛法。
-```
+```c
 int vis[MAXN];  
 int prime[MAXN];  //prime[j]表示的是第j个素数
 //判断是否是一个素数  vis 标记数组 cnt 素数个数  
@@ -206,4 +206,29 @@ prime数组 中的素数是递增的,当 i 能整除 prime[j]，那么 i*prime[j
     }  
     return cnt;  
 }  
+```
+## 树状数组
+![image](https://user-images.githubusercontent.com/72183335/114340001-23e58000-9b89-11eb-8909-dab7b2d2a472.png)
+```c
+//单点修改
+int tree[MAXN];
+inline void update(int i, int x)
+{
+    for (int pos = i; pos < MAXN; pos += lowbit(pos))//lowbit(x)=x&(-x) x的二进制表达式中最低位的1所对应的值。
+        tree[pos] += x;
+}
+//求前n项和
+inline int query(int n)
+{
+    int ans = 0;
+    for (int pos = n; pos; pos -= lowbit(pos))
+        ans += tree[pos];
+    return ans;
+}
+//区间查询
+inline int query(int a, int b)
+{
+    return query(b) - query(a - 1);
+}
+//初始化的时候，我们只需要update每个点的初始值即可。
 ```
