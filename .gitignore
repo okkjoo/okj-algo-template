@@ -1,2 +1,3 @@
 .vscode
 del.bat
+*.exe
