@@ -4,7 +4,7 @@ using namespace std;
 #define FOR(i, n, m) for (int i = n; i < m; ++i)
 
 vector<vector<int>> v(10010); //二维数组存图，直接开好大小
-int book[10010];			  //记录节点是否访问过
+int book[10010];							//记录节点是否访问过
 int main()
 {
 	ios::sync_with_stdio(false);
@@ -35,8 +35,8 @@ int main()
 				maxLevel = level[top];
 				ans = 10010; //设为最大值是为了下面的比较——如果直接在这里 ans = top; 会有一个测试点不过:相同山头时要那个较小编号的
 			}
-			if (top != a)							//第一次进来的情况，就不用比较ans和top了
-				ans = min(ans, top);				//取编号较小的
+			if (top != a)														//第一次进来的情况，就不用比较ans和top了
+				ans = min(ans, top);									//取编号较小的
 			for (int j = 0; j < v[top].size(); j++) //遍历top能到的所有点
 			{
 				if (book[v[top][j]] == 0)
