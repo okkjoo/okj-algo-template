@@ -3,4 +3,5 @@ lab/
 del.bat
 *.exe
 temp.cpp
+temp.py
 .obsidian

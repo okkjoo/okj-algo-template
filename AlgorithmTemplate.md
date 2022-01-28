@@ -187,7 +187,7 @@ void qsort(int l, int r){
 ## 快速幂
 例子：a^11 = a^8 + a^2 + a^1;
 11 = 1011(二进制)
- 
+
 ```c
 long long quickPower(long long b, long long p, long long k){//b的p次方对k取余
 	long long ans = 1, base = b;
@@ -203,7 +203,29 @@ long long quickPower(long long b, long long p, long long k){//b的p次方对k取
 	return ans;
 }
 ```
+### 泛型快速幂
+
+```cpp
+//泛型的非递归快速幂
+template <typename T>
+T qpow(T a, ll n)
+{
+    T ans = 1; // 赋值为乘法单位元，可能要根据构造函数修改
+    while (n)
+    {
+        if (n & 1)
+            ans = ans * a; // 这里就最好别用自乘了，不然重载完*还要重载*=，有点麻烦。
+        n >>= 1;
+        a = a * a;
+    }
+    return ans;
+}
+```
+
+
+
 ## 线性筛
+
 初始时，假设全部都是素数，当找到一个素数时，显然这个素数乘上另外一个数之后都是合数
 把这些合数都筛掉，即算法名字的由来。但仔细分析能发现，这种方法会造成重复筛除合数，影响效率。
 比如10，在i=2的时候，k=2*15筛了一次；在i=5，k=5*6 的时候又筛了一次。所以，也就有了快速线性筛法。
@@ -238,3 +260,4 @@ prime数组 中的素数是递增的,当 i 能整除 prime[j]，那么 i*prime[j
     return cnt;  
 }  
 ```
+
